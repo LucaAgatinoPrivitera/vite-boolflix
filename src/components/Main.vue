@@ -5,13 +5,11 @@ import axios from 'axios';
 </script>
 
 <template>
-  <div id="segnaposto" class="w-100 bg-black">
+  <!-- <div id="segnaposto" class="w-100 bg-black">
     
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
-#segnaposto{
-    height: 90vh;
-}
+
 </style>

@@ -35,7 +35,8 @@ export default {
 
       axios
         .request(this.store.options)
-        .then(function (response) {
+        .then((response) => {
+          // Sto coso senza arrow function da errori, non so perché
           console.log(response.data);
           console.log("questo", response.data.results);
 
@@ -57,12 +58,12 @@ export default {
 
 <template>
   <div class="w-100 bg-dark">
-    <div class="bg-dark d-flex justify-content-around align-items-center w-50 m-auto py-2">
+    <div class="bg-dark d-flex justify-content-between align-items-center w-50 m-auto py-2">
       <a class="navbar navbar-brand text-danger m-0">Boolflix</a>
       <div class="input-group mb-0 w-50 align-items-center d-flex">
         <!-- Searchbar -->
         <input type="text" class="form-control rounded" placeholder="Cerca un titolo" aria-label="Recipient's username"
-          aria-describedby="basic-addon2" v-model="searchString" @keyup.enter="consoleprova()">
+          aria-describedby="basic-addon2" v-model="searchString" @keyup.enter="getFilm()">
         <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
         <!-- Pulsante per mandare le info -->
         <div class="input-group-append me-2">
@@ -74,13 +75,12 @@ export default {
   </div>
 
 
-  <div>
-    <p>prova</p>
-    <div class="cards mb-3" v-for="cardSingola, i in store.filmRequest">
-      <img :src="cardSingola.poster_path">
-      <h6 class="text-center">{{ cardSingola.title }}</h6>
-      <p class="text-center text-dark">{{ cardSingola.overview
- }}</p>
+  <div class="w-100">
+    <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
+      <img :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
+      <h6 class="text-left">{{ cardSingola.title }}</h6>
+      <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
+      <p class="text-left text-dark">{{ cardSingola.overview }}</p>
     </div>
   </div>
 </template>
