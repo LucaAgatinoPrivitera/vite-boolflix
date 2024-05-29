@@ -1,5 +1,7 @@
 <script>
 import { ref } from 'vue'
+import { store } from '../store.js';
+import axios from 'axios';
 </script>
 
 <template>

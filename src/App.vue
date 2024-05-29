@@ -21,7 +21,6 @@ export default {
     }
   },
 
-
   methods: {
     getFilmBackup() {
       console.log("cerca: ", this.searchString); //il this serve perché è messo nel data, in fondo è vue
@@ -44,6 +43,9 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
+    },
+    consoleprova() {
+      console.log(this.searchType, "ciao")
     }
   }
 }

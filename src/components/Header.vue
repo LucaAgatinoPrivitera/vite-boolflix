@@ -14,6 +14,7 @@ export default {
       // store,
       searchString: "",
       searchType: "",
+      store
     }
   },
 
@@ -41,7 +42,7 @@ export default {
         });
     },
     consoleprova() {
-      console.log("ciao")
+      console.log(this.searchType, "ciao")
     }
   }
 }
@@ -59,15 +60,12 @@ export default {
           <!-- Pulsante per mandare le info -->
         <div class="input-group-append me-2">
           <input class="btn btn-outline-secondary rounded text-light" type="button"
-            @click="consoleprova()" value="Submit">Cerca</input>
+            @click="getFilm()" value="Submit">Cerca</input>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- <div class="bg-white">
-    
-  </div> -->
 </template>
 
 <style scoped></style>
