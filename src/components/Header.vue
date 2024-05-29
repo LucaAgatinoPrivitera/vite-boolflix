@@ -31,18 +31,25 @@ export default {
     },
 
     getFilm() {
+      console.log(this.store.options + this.searchString)
 
       axios
-        .request(options)
+        .request(this.store.options)
         .then(function (response) {
           console.log(response.data);
+          console.log("questo", response.data.results);
+
+          this.store.filmRequest = response.data.results;
+          // Da chiedere, non so perché crea un errore
+          // Da chiedere le emit
+
         })
         .catch(function (error) {
-          console.error(error);
+          console.error("!errorEEEE");
         });
     },
     consoleprova() {
-      console.log(this.searchType, "ciao")
+      console.log(this.searchString, "ciao")
     }
   }
 }
@@ -52,20 +59,30 @@ export default {
   <div class="w-100 bg-dark">
     <div class="bg-dark d-flex justify-content-around align-items-center w-50 m-auto py-2">
       <a class="navbar navbar-brand text-danger m-0">Boolflix</a>
-      <div class="input-group mb-0 w-25 align-items-center d-flex">
+      <div class="input-group mb-0 w-50 align-items-center d-flex">
         <!-- Searchbar -->
         <input type="text" class="form-control rounded" placeholder="Cerca un titolo" aria-label="Recipient's username"
-          aria-describedby="basic-addon2" v-model="searchType" @keyup.enter="consoleprova()">
-          <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
-          <!-- Pulsante per mandare le info -->
+          aria-describedby="basic-addon2" v-model="searchString" @keyup.enter="consoleprova()">
+        <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
+        <!-- Pulsante per mandare le info -->
         <div class="input-group-append me-2">
-          <input class="btn btn-outline-secondary rounded text-light" type="button"
-            @click="getFilm()" value="Submit">Cerca</input>
+          <input class="btn btn-outline-secondary rounded text-light" type="button" @click="getFilm()"
+            value="Submit">Cerca</input>
         </div>
       </div>
     </div>
   </div>
 
+
+  <div>
+    <p>prova</p>
+    <div class="cards mb-3" v-for="cardSingola, i in store.filmRequest">
+      <img :src="cardSingola.poster_path">
+      <h6 class="text-center">{{ cardSingola.title }}</h6>
+      <p class="text-center text-dark">{{ cardSingola.overview
+ }}</p>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
