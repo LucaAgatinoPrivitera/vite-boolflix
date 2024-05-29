@@ -9,9 +9,6 @@ export default {
 </script>
 
 <template>
-  <div>
-
-  </div>
   <Header msg="Vite + Vue" />
 </template>
 
