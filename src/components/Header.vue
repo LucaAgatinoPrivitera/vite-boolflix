@@ -32,35 +32,37 @@ export default {
     },
 
     getFilm() {
-      const options = {
-        method: 'GET',
-        url: 'https://api.themoviedb.org/3/search/movie',
-        params: { query: 'Il%20Padrino', include_adult: 'false', language: 'en-US', page: '1' },
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
-        }
-      }
-
-      console.log(options + this.searchString)
-      axios
-        .request(options)
-        .then((response) => {
-          // Sto coso senza arrow function da errori, non so perché
-          console.log("response", response);
-          console.log("response data", response.data);
-          console.log("questo", response.data.results);
-          if (response.data.results.original_language == "it") {
-            console.log("funziona")
+      if (this.searchString != '') {
+        const options = {
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/search/movie',
+          params: { query: this.searchString, include_adult: 'false', language: 'en-US', page: '1' },
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
           }
-          this.store.filmRequest = response.data.results;
-          // Da chiedere, non so perché crea un errore
-          // Da chiedere le emit
+        }
 
-        })
-        .catch(function (error) {
-          console.error("!errorEEEE");
-        });
+        console.log(options + this.searchString)
+        axios
+          .request(options)
+          .then((response) => {
+            // Sto coso senza arrow function da errori, non so perché
+            console.log("response", response);
+            console.log("response data", response.data);
+            console.log("questo", response.data.results);
+            if (response.data.results.original_language == "it") {
+              console.log("funziona")
+            }
+            this.store.filmRequest = response.data.results;
+            // Da chiedere, non so perché crea un errore
+            // Da chiedere le emit
+
+          })
+          .catch(function (error) {
+            console.error("!errorEEEE");
+          });
+      }
     },
 
     getFilmPopular() {
@@ -189,6 +191,7 @@ export default {
 
   <div class="w-100">
     <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
+      <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
       <div
         v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
         <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
@@ -218,7 +221,7 @@ export default {
 
         </div>
 
-        <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
+        <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
         <p class="text-left text-dark">{{ cardSingola.overview }}</p>
       </div>
 
