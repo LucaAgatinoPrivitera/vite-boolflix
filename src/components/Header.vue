@@ -107,7 +107,7 @@ export default {
         });
     },
     getFilmAndSeries() {
-      this.getFilm()
+      this.getFilmPopular()
 
       const options = {
         method: 'GET',
@@ -132,7 +132,7 @@ export default {
           let y = this.prova
           this.filmAndSeries = [...x, ...y];
           */
-         
+
           this.filmAndSeries = [...this.store.filmRequest, ...this.prova];
           // i tre puntini indicano l'array completo
           console.log("questo è prova completo magari", this.filmAndSeries)
@@ -189,32 +189,39 @@ export default {
 
   <div class="w-100">
     <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
-      <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
-      <div class="d-flex align-items-center justify-content-between mb-4">
-        <h6 v-if="cardSingola.title != null" class="text-left mb-0">{{ cardSingola.title }}</h6>
-        <h6 v-if="cardSingola.original_name != null" class="text-left mb-0">{{ cardSingola.original_name }}</h6>
+      <div
+        v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
+        <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+          <h6 v-if="(cardSingola.title != null)" class="text-left mb-0">{{ cardSingola.title }}</h6>
+          <h6 v-if="(cardSingola.original_name != null)" class="text-left mb-0">{{ cardSingola.original_name }}</h6>
+          <!-- Grazie al null, controllo se è presente nell'array, se avessi messo solamente '' avrebbe stampato sempre gli h6 anche se non fossero esistiti dati dentro -->
 
 
-        <div class="d-flex gap-2">
-          <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
-            class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
-          <!-- Quel v-if mi fa stampare in pagina il testo della lingua solo se è diverso da it e en -->
+          <!-- Contenitore flag e lingua -->
+          <div class="d-flex gap-2">
+            <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
+              class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
+            <!-- Quel v-if mi fa stampare in pagina il testo della lingua solo se è diverso da it e en -->
 
-          <img class="text-left text-dark mb-0" :src="cardSingola.original_language">
-          <!-- Metodo 1, non ancora funzionante -->
+            <!-- <img class="text-left text-dark mb-0" :src="cardSingola.original_language"> -->
+            <!-- Metodo 1, non ancora funzionante -->
 
-          <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
-            src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
-          <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
-            src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" alt="">
-          <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+            <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
+              src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
+            <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
+              src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" alt="">
+            <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
+              src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+          </div>
+
         </div>
 
+        <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
+        <p class="text-left text-dark">{{ cardSingola.overview }}</p>
       </div>
 
-      <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
-      <p class="text-left text-dark">{{ cardSingola.overview }}</p>
     </div>
   </div>
 </template>
