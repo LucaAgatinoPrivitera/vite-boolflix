@@ -31,10 +31,19 @@ export default {
     },
 
     getFilm() {
-      console.log(this.store.options + this.searchString)
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/search/movie',
+        params: { query: 'Il%20Padrino', include_adult: 'false', language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+        }
+      }
 
+      console.log(options + this.searchString)
       axios
-        .request(this.store.options)
+        .request(options)
         .then((response) => {
           // Sto coso senza arrow function da errori, non so perché
           console.log("response", response);
@@ -52,9 +61,45 @@ export default {
           console.error("!errorEEEE");
         });
     },
+
+    getFilmPopular() {
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/movie/popular',
+        params: { language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+        }
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          // Da chieder, perché senza => non mi gira la function? dicendo che non trova store
+          console.log(response.data);
+          this.store.filmRequest = response.data.results;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
     consoleprova() {
       console.log(this.searchString, "ciao")
     }
+  },
+
+  computed: {
+    checkLang() {
+      if (this.store.filmRequest.original_language == it) {
+        return this.store.filmRequest.original_language = "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg";
+      }
+    }
+
+  },
+
+  mounted() {
+    this.getFilmPopular()
   }
 }
 </script>
@@ -62,16 +107,17 @@ export default {
 <template>
   <div class="w-100 bg-dark">
     <div class="bg-dark d-flex justify-content-between align-items-center w-50 m-auto py-2">
-      <a class="navbar navbar-brand text-danger m-0">Boolflix</a>
-      <div class="input-group mb-0 w-50 align-items-center d-flex">
-        <!-- Searchbar -->
+      <a id="siteName" class="navbar navbar-brand text-danger m-0">Boolflix</a>
+
+      <!-- Searchbar -->
+      <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
         <input type="text" class="form-control rounded" placeholder="Cerca un titolo" aria-label="Recipient's username"
           aria-describedby="basic-addon2" v-model="searchString" @keyup.enter="getFilm()">
         <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
         <!-- Pulsante per mandare le info -->
-        <div class="input-group-append me-2">
-          <input class="btn btn-outline-secondary rounded text-light" type="button" @click="getFilm()"
-            value="Submit">Cerca</input>
+        <div class="input-group-append me-0">
+          <input class="btn btn-outline-secondary rounded text-light me-0" type="button" @click="getFilm()"
+            value="Cerca"></input>
         </div>
       </div>
     </div>
@@ -83,14 +129,22 @@ export default {
       <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 class="text-left mb-0">{{ cardSingola.title }}</h6>
-        <p class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
-        <img class="text-left text-dark mb-0" :src="cardSingola.original_language">
-        <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
-          src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
-        <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
-          src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" alt="">
-        <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
-          src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+        <div class="d-flex gap-2">
+          <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
+            class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
+          <!-- Quel v-if mi fa stampare in pagina il testo della lingua solo se è diverso da it e en -->
+
+          <img class="text-left text-dark mb-0" :src="cardSingola.original_language">
+          <!-- Metodo 1, non ancora funzionante -->
+
+          <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
+            src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
+          <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
+            src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" alt="">
+          <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
+            src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+        </div>
+
       </div>
 
       <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
@@ -100,6 +154,14 @@ export default {
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+#siteName {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+
+}
+
 .flag {
   height: 15px;
 }
