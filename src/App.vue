@@ -52,7 +52,7 @@ export default {
 </script>
 
 <template>
-  <Header msg="Vite + Vue" />
+  <Header/>
   <Main></Main>
 </template>
 
