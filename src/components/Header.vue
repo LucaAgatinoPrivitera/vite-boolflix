@@ -127,10 +127,13 @@ export default {
           this.prova = response.data.results
           console.log("questo è prova", this.prova)
 
+          /* Stesso codice della riga sotto
           let x = this.store.filmRequest
           let y = this.prova
-
           this.filmAndSeries = [...x, ...y];
+          */
+         
+          this.filmAndSeries = [...this.store.filmRequest, ...this.prova];
           // i tre puntini indicano l'array completo
           console.log("questo è prova completo magari", this.filmAndSeries)
 
