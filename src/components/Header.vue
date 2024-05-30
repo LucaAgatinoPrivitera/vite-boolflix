@@ -37,9 +37,12 @@ export default {
         .request(this.store.options)
         .then((response) => {
           // Sto coso senza arrow function da errori, non so perché
-          console.log(response.data);
+          console.log("response", response);
+          console.log("response data", response.data);
           console.log("questo", response.data.results);
-
+          if (response.data.results.original_language == "it") {
+            console.log("funziona")
+          }
           this.store.filmRequest = response.data.results;
           // Da chiedere, non so perché crea un errore
           // Da chiedere le emit
@@ -77,12 +80,34 @@ export default {
 
   <div class="w-100">
     <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
-      <img :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
-      <h6 class="text-left">{{ cardSingola.title }}</h6>
+      <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="text-left mb-0">{{ cardSingola.title }}</h6>
+        <p class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
+        <img class="text-left text-dark mb-0" :src="cardSingola.original_language">
+        <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
+        <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
+          src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" alt="">
+        <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
+          src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+      </div>
+
       <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? -->
       <p class="text-left text-dark">{{ cardSingola.overview }}</p>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.flag {
+  height: 15px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+</style>
