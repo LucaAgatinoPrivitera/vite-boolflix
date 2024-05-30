@@ -76,7 +76,7 @@ export default {
       axios
         .request(options)
         .then((response) => {
-          // Da chieder, perché senza => non mi gira la function? dicendo che non trova store
+          // Da chiedere, perché senza => non mi gira la function? dicendo che non trova store
           console.log(response.data);
           this.store.filmRequest = response.data.results;
         })
@@ -84,6 +84,28 @@ export default {
           console.error(error);
         });
     },
+    getSeries() {
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/tv/popular',
+        params: {include_adult: 'false', language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+        }
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+          this.store.filmRequest = response.data.results;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
+
     consoleprova() {
       console.log(this.searchString, "ciao")
     }
@@ -99,7 +121,7 @@ export default {
   },
 
   mounted() {
-    this.getFilmPopular()
+    this.getSeries()
   }
 }
 </script>
@@ -128,7 +150,10 @@ export default {
     <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
       <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
       <div class="d-flex align-items-center justify-content-between mb-4">
-        <h6 class="text-left mb-0">{{ cardSingola.title }}</h6>
+        <h6 v-if="cardSingola.title != null" class="text-left mb-0">{{ cardSingola.title }}</h6>
+        <h6 v-if="cardSingola.original_name != null" class="text-left mb-0">{{ cardSingola.original_name }}</h6>
+        
+
         <div class="d-flex gap-2">
           <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
             class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
