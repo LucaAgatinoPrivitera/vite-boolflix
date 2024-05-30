@@ -172,7 +172,7 @@ export default {
 <template>
   <div id="similHeader" class="w-100 bg-dark">
     <div class="bg-dark d-flex justify-content-between align-items-center w-50 m-auto py-2">
-      <a id="siteName" class="navbar navbar-brand text-danger m-0">Boolflix</a>
+      <a id="siteName" class="navbar navbar-brand m-0">Boolflix</a>
 
       <!-- Searchbar -->
       <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
@@ -197,10 +197,11 @@ export default {
         <div class="widthCards"
           v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
           <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
-          <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="d-flex align-items-center justify-content-between">
 
             <h6 v-if="(cardSingola.title != null)" class="text-left mb-0 textBreak">{{ cardSingola.title }}</h6>
-            <h6 v-if="(cardSingola.original_name != null)" class="text-left mb-0 textBreak">{{ cardSingola.original_name }}</h6>
+            <h6 v-if="(cardSingola.original_name != null)" class="text-left mb-0 textBreak">
+              {{ cardSingola.original_name }}</h6>
             <!-- Grazie al null, controllo se è presente nell'array, se avessi messo solamente '' avrebbe stampato sempre gli h6 anche se non fossero esistiti dati dentro -->
 
 
@@ -223,6 +224,26 @@ export default {
             </div>
 
           </div>
+          <!-- Container di tutte le stelle -->
+          <div class="position-relative mb-4 containerIcons">
+
+            <!-- Container delle 5 stelle sempre presenti -->
+            <div class="allStars">
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+            </div>
+            <div>
+
+            </div>
+            <i v-for="cardSingola in store.filmRequest.vote_average" class="fa-solid fa-star right opacity-50"></i>
+            <!-- da chiedere -->
+            <div>
+
+            </div>
+          </div>
 
           <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
           <p class="text-left text-dark textBreak">{{ cardSingola.overview }}</p>
@@ -236,18 +257,20 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-#similHeader{
+
+#similHeader {
   height: 4rem;
   display: flex;
 }
-#similMain{
+
+#similMain {
   height: calc(100vh - 4rem);
 }
 
 #siteName {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-
+  color: #D72638;
 }
 
 .contenitoreApp {
@@ -256,7 +279,7 @@ export default {
   white-space: nowrap;
 }
 
-.content{
+.content {
   display: contents;
 }
 
@@ -275,8 +298,16 @@ export default {
   height: 15px;
 }
 
-.textBreak{
-  white-space:normal;
+/* .containerIcons * { 
+  right: 0px;
+}*/
+
+.allStars {
+  position: absolute;
+}
+
+.textBreak {
+  white-space: normal;
 }
 
 .center {
@@ -284,5 +315,9 @@ export default {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+.right {
+  margin-left: auto;
 }
 </style>
