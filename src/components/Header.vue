@@ -14,7 +14,8 @@ export default {
       // store,
       searchString: "",
       searchType: "",
-      store
+      store,
+      prova: [],
     }
   },
 
@@ -88,7 +89,7 @@ export default {
       const options = {
         method: 'GET',
         url: 'https://api.themoviedb.org/3/tv/popular',
-        params: {include_adult: 'false', language: 'en-US', page: '1' },
+        params: { include_adult: 'false', language: 'en-US', page: '1' },
         headers: {
           accept: 'application/json',
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
@@ -104,6 +105,43 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
+    },
+    getFilmAndSeries() {
+      this.getFilm()
+
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/tv/popular',
+        params: { include_adult: 'false', language: 'en-US', page: '1' },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+        }
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+
+          this.prova = response.data.results
+          console.log("questo è prova", this.prova)
+
+          let x = this.store.filmRequest
+          let y = this.prova
+
+          this.filmAndSeries = [...x, ...y];
+          // i tre puntini indicano l'array completo
+          console.log("questo è prova completo magari", this.filmAndSeries)
+
+
+          this.store.filmRequest = this.filmAndSeries;
+          console.log("Dopo", response.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
     },
 
     consoleprova() {
@@ -121,7 +159,7 @@ export default {
   },
 
   mounted() {
-    this.getSeries()
+    this.getFilmAndSeries()
   }
 }
 </script>
@@ -152,7 +190,7 @@ export default {
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 v-if="cardSingola.title != null" class="text-left mb-0">{{ cardSingola.title }}</h6>
         <h6 v-if="cardSingola.original_name != null" class="text-left mb-0">{{ cardSingola.original_name }}</h6>
-        
+
 
         <div class="d-flex gap-2">
           <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
