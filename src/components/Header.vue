@@ -191,10 +191,11 @@ export default {
 
   <div class="w-100">
     <div class="cards mb-4 pb-4 w-50 m-auto" v-for="cardSingola, i in store.filmRequest">
+
       <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
       <div
         v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
-        <img class="center" :src="'https://api.themoviedb.org/3/movie/' + cardSingola.id + '/images'">
+        <img class="center" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
         <div class="d-flex align-items-center justify-content-between mb-4">
 
           <h6 v-if="(cardSingola.title != null)" class="text-left mb-0">{{ cardSingola.title }}</h6>
