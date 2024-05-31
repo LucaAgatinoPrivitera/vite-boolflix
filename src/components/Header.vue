@@ -1,5 +1,6 @@
 <script>
 import { ref } from 'vue'
+import { toRaw } from 'vue'
 import { store } from '../store.js';
 import axios from 'axios';
 
@@ -16,6 +17,7 @@ export default {
       searchType: "",
       store,
       prova: [],
+      stars: []
     }
   },
 
@@ -142,11 +144,31 @@ export default {
 
           this.store.filmRequest = this.filmAndSeries;
           console.log("Dopo", response.data);
+          console.log("Proviamo qui", this.store.filmRequest[0].vote_average)
+          console.log("length", this.store.filmRequest.length)
+
+          // Così posso prendere tutti i vote average
+          for (let i = 0; i < this.store.filmRequest.length - 1; i++) {
+            const element = parseFloat(this.store.filmRequest[i].vote_average);
+            toRaw(element)
+            this.stars.push(element)
+          }
+
+          console.log(this.stars)
+          toRaw(this.stars)
+          console.log("dopo raw", this.stars)
+          this.getRating()
         })
         .catch(function (error) {
           console.error(error);
         });
 
+
+    },
+
+    getRating() {
+      let x = this.store.filmRequest.vote_average;
+      console.log("x vale", Math.round(x), "il suo tipo è", typeof x);
     },
 
     consoleprova() {
@@ -165,6 +187,7 @@ export default {
 
   mounted() {
     this.getFilmAndSeries()
+    this.getRating()
   }
 }
 </script>
@@ -190,7 +213,7 @@ export default {
 
   <div id="similMain" class="w-100 contenitoreApp">
 
-    <div class="w-75 d-flex gap-4 m-auto py-4">
+    <div class="ContainerCards d-flex gap-4 m-auto py-4">
       <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest">
 
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
@@ -235,14 +258,13 @@ export default {
               <i class="fa-solid fa-star right opacity-25"></i>
               <i class="fa-solid fa-star right opacity-25"></i>
             </div>
-            <div>
 
-            </div>
-            <i v-for="cardSingola in store.filmRequest.vote_average" class="fa-solid fa-star right opacity-50"></i>
-            <!-- da chiedere -->
-            <div>
 
+            <div class="">
+              <i class="fa-solid fa-star right opacity-50 d-block" v-for="cardSingola, i in stars"></i>
+              <!-- da chiedere -->
             </div>
+
           </div>
 
           <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
@@ -277,6 +299,10 @@ export default {
   background-color: #D4D2D5;
   overflow: auto;
   white-space: nowrap;
+}
+
+.ContainerCards {
+  width: 90%;
 }
 
 .content {
