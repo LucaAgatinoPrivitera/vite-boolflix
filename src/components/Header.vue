@@ -380,7 +380,7 @@ export default {
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: overlay;
-  max-height: 45%;
+  max-height: 60%;
 }
 
 .poster {
@@ -427,7 +427,7 @@ export default {
     text-overflow: ellipsis;
     word-wrap: break-word;
     overflow: overlay;
-    max-height: 30%;
+    max-height: 40%;
   }
 }
 </style>
