@@ -230,7 +230,16 @@ export default {
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
         <div class="widthCards"
           v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
-          <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
+          <div class="poster">
+            <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
+
+            <h3 v-if="(cardSingola.title != null)" class="text-left mb-0 textBreak position-absolute titleInCard">
+              {{ cardSingola.title }}</h3>
+            <h3 v-if="(cardSingola.original_name != null)"
+              class="text-left mb-0 textBreak position-absolute titleInCard">
+              {{ cardSingola.original_name }}</h3>
+          </div>
+
           <div class="d-flex align-items-center justify-content-between">
 
             <h6 v-if="(cardSingola.title != null)" class="text-left mb-0 textBreak">{{ cardSingola.title }}</h6>
@@ -387,7 +396,33 @@ export default {
   width: 342px;
   height: 513px;
   object-fit: fill;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
 }
+
+.titleInCard {
+  top: 12.36px;
+  left: 20px;
+  opacity: 0;
+  color: #ffffff;
+  transition: 0.3s ease-in-out;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+}
+/* Da chiedere come posso togliere il fatto che se hover il testo mi resiza il poster? */
+
+.poster:hover {
+  transform: scale(1.1);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: block !important;
+}
+
+.poster:hover .titleInCard {
+  display: block;
+  text-shadow: 0px 0px 15px #0A0908 !important;
+  opacity: 100;
+}
+
 
 .flag {
   height: 15px;
