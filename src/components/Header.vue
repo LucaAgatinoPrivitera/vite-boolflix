@@ -439,6 +439,7 @@ export default {
 }
 
 .testoCard {
+  display: none;
   opacity: 0;
   transition: 0.3s ease-in-out;
 }
@@ -450,7 +451,8 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: block !important;
 }
-.widthCards:hover *{
+.widthCards:hover .testoCard{
+  display: block;
   opacity: 100;
 }
 
@@ -459,6 +461,7 @@ export default {
   text-shadow: 0px 0px 15px #0A0908 !important;
   opacity: 100;
 }
+
 
 
 .flag {

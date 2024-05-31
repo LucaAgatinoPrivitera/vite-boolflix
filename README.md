@@ -12,3 +12,4 @@ Voto
 
 
 Da chiedere, come gestire la modale. Perché col transform scale mi ignora i z-index sulle stelle?
+Come faccio a fare in modo che all'hover dell'img mi venga mostrato il testo?
