@@ -172,9 +172,16 @@ export default {
 
     },
 
-    getRating() {
+    getRating(rating) {
+      let newVote = rating / 2
+      newVote = newVote.toFixed(2)
+      newVote = Math.round(newVote)
+
+      /* metodo vecchio
       let x = this.store.filmRequest.vote_average;
       console.log("x vale", Math.round(x), "il suo tipo è", typeof x);
+      */
+      return newVote;
     },
 
     consoleprova() {
@@ -277,12 +284,27 @@ export default {
               <i class="fa-solid fa-star right opacity-25"></i>
               <i class="fa-solid fa-star right opacity-25"></i>
               <i class="fa-solid fa-star right opacity-25"></i>
+              {{ cardSingola.vote_average / 2 }}
             </div>
 
 
             <div class="">
               <!-- <i class="fa-solid fa-star right opacity-50 d-block" v-for="x in store.filmRequest[0]"></i> -->
               <!-- da chiedere -->
+
+              <!-- Due modi uguali -->
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block">{{ (cardSingola.vote_average / 2).toFixed(2) }}</i> -->
+
+
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block">{{ getRating(cardSingola.vote_average) }}</i> -->
+
+              <div class="">
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 1"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 2"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 3"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 4"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 5"></i>
+              </div>
             </div>
 
           </div>
@@ -338,6 +360,11 @@ export default {
 
 #similMain {
   height: calc(100vh - 4rem);
+  /* Nascondo le scrollbar */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 #siteName {
@@ -409,6 +436,7 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
 }
+
 /* Da chiedere come posso togliere il fatto che se hover il testo mi resiza il poster? */
 
 .poster:hover {
