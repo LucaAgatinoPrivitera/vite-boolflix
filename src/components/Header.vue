@@ -3,10 +3,12 @@ import { ref } from 'vue'
 import { toRaw } from 'vue'
 import { store } from '../store.js';
 import axios from 'axios';
+import HeaderModale from './HeaderModale.vue';
 
 export default {
   components: {
-    store
+    store,
+    HeaderModale
   },
 
   data() {
@@ -238,6 +240,9 @@ export default {
         <div class="widthCards"
           v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
           <div class="poster">
+
+            <HeaderModale class="position-absolute" :overview="cardSingola.overview"></HeaderModale>
+
             <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
 
             <h3 v-if="(cardSingola.title != null)" class="text-left mb-0 textBreak position-absolute titleInCard">
@@ -438,11 +443,11 @@ export default {
   font-weight: 800;
 }
 
-.testoCard {
+/* .testoCard {
   display: none;
   opacity: 0;
   transition: 0.3s ease-in-out;
-}
+} */
 
 /* Da chiedere come posso togliere il fatto che se hover il testo mi resiza il poster? */
 
