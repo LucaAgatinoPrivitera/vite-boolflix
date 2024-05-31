@@ -9,3 +9,6 @@ Titolo
 Titolo Originale
 Lingua
 Voto
+
+
+Da chiedere, come gestire la modale. Perché col transform scale mi ignora i z-index sulle stelle?

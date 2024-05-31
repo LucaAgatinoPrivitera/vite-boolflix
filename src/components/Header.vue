@@ -310,11 +310,12 @@ export default {
           </div>
 
           <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
-          <p class="text-left text-dark textBreak">{{ cardSingola.overview }}</p>
+          <p class="text-left text-dark textBreak testoCard">{{ cardSingola.overview }}</p>
         </div>
 
       </div>
     </div>
+
 
   </div>
 </template>
@@ -437,12 +438,20 @@ export default {
   font-weight: 800;
 }
 
+.testoCard {
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+
 /* Da chiedere come posso togliere il fatto che se hover il testo mi resiza il poster? */
 
 .poster:hover {
   transform: scale(1.1);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: block !important;
+}
+.widthCards:hover *{
+  opacity: 100;
 }
 
 .poster:hover .titleInCard {
