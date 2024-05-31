@@ -208,7 +208,7 @@ export default {
 <template>
   <div id="similHeader" class="w-100 bg-dark">
     <div class="d-flex justify-content-between align-items-center w-50 m-auto py-2">
-      <a id="siteName" class="navbar navbar-brand m-0">Boolflix</a>
+      <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries()">Boolflix</a>
 
       <!-- Searchbar -->
       <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
@@ -229,7 +229,7 @@ export default {
     </div>
   </div>
 
-  <div id="similMain" class="w-100 contenitoreApp">
+  <div id="similMain" class="w-100 contenitoreApp position-relative">
     <h3 id="titolo" class="ContainerCards m-auto mt-4">{{ title }}</h3>
     <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
       <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest">
@@ -284,7 +284,7 @@ export default {
               <i class="fa-solid fa-star right opacity-25"></i>
               <i class="fa-solid fa-star right opacity-25"></i>
               <i class="fa-solid fa-star right opacity-25"></i>
-              {{ cardSingola.vote_average / 2 }}
+              <!-- {{ cardSingola.vote_average / 2 }} -->
             </div>
 
 
