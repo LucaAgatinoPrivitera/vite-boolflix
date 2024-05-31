@@ -90,7 +90,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
-        this.title = 'Film Popolari';
+      this.title = 'Film Popolari';
     },
     getSeries() {
       const options = {
@@ -153,19 +153,17 @@ export default {
           // Così posso prendere tutti i vote average
           for (let i = 0; i < this.store.filmRequest.length - 1; i++) {
             const element = parseFloat(this.store.filmRequest[i].vote_average);
-            toRaw(element)
             this.stars.push(element)
           }
 
           console.log(this.stars)
-          toRaw(this.stars)
           console.log("dopo raw", this.stars)
           this.getRating()
         })
         .catch(function (error) {
           console.error(error);
         });
-        this.title = 'Film e SerieTV popolari';
+      this.title = 'Film e SerieTV popolari';
 
 
     },
@@ -221,8 +219,8 @@ export default {
   </div>
 
   <div id="similMain" class="w-100 contenitoreApp">
-    <h3 id="titolo" class="ContainerCards m-auto pt-2">{{ title }}</h3>
-    <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto py-4">
+    <h3 id="titolo" class="ContainerCards m-auto mt-4">{{ title }}</h3>
+    <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
       <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest">
 
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
@@ -270,7 +268,7 @@ export default {
 
 
             <div class="">
-              <i class="fa-solid fa-star right opacity-50 d-block" v-for="cardSingola, i in stars"></i>
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block" v-for="x in store.filmRequest[0]"></i> -->
               <!-- da chiedere -->
             </div>
 
@@ -304,6 +302,15 @@ export default {
   color: #E5E6E8;
 }
 
+#similHeader input {
+  color: #E5E6E8;
+}
+
+.form-control:focus {
+  border-color: #E5E6E8 !important;
+  box-shadow: 0 0 0 0.1rem #E5E6E8 !important;
+}
+
 #similHeader i {
   color: #0A0908;
   border-radius: 60px;
@@ -326,8 +333,12 @@ export default {
   color: #D72638;
   cursor: pointer
 }
-#titolo{
+
+#titolo {
   height: 3rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: #0A0908;
 }
 
 .contenitoreApp {
@@ -339,8 +350,10 @@ export default {
 .ContainerCards {
   width: 90%;
 }
-.containerCardsHeight{
-  height: calc(100% - 3rem);
+
+.containerCardsHeight {
+  height: calc(100% - (3rem + 1.5rem));
+  /* 1.5rem sarebbe lo spacer del margine */
 }
 
 .content {
@@ -350,6 +363,20 @@ export default {
 .widthCards {
   width: 342px !important;
   height: auto;
+}
+
+.widthCards h6,
+.widthCards p {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.widthCards p {
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: overlay;
+  max-height: 45%;
 }
 
 .poster {
@@ -383,5 +410,20 @@ export default {
 
 .right {
   margin-left: auto;
+}
+
+
+@media only screen and (max-width: 1920px) {
+  .poster {
+    width: 256.5px;
+    height: 384.75px;
+  }
+
+  .widthCards p {
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: overlay;
+    max-height: 30%;
+  }
 }
 </style>
