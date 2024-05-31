@@ -17,7 +17,8 @@ export default {
       searchType: "",
       store,
       prova: [],
-      stars: []
+      stars: [],
+      title: ''
     }
   },
 
@@ -65,6 +66,7 @@ export default {
             console.error("!errorEEEE");
           });
       }
+      this.title = 'Ricerca per: ' + this.searchString;
     },
 
     getFilmPopular() {
@@ -75,7 +77,7 @@ export default {
         headers: {
           accept: 'application/json',
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
-        }
+        },
       };
 
       axios
@@ -88,6 +90,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
+        this.title = 'Film Popolari';
     },
     getSeries() {
       const options = {
@@ -120,7 +123,7 @@ export default {
         headers: {
           accept: 'application/json',
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
-        }
+        },
       };
 
       axios
@@ -162,6 +165,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
+        this.title = 'Film e SerieTV popolari';
 
 
     },
@@ -194,26 +198,31 @@ export default {
 
 <template>
   <div id="similHeader" class="w-100 bg-dark">
-    <div class="bg-dark d-flex justify-content-between align-items-center w-50 m-auto py-2">
+    <div class="d-flex justify-content-between align-items-center w-50 m-auto py-2">
       <a id="siteName" class="navbar navbar-brand m-0">Boolflix</a>
 
       <!-- Searchbar -->
       <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
-        <input type="text" class="form-control rounded" placeholder="Cerca un titolo" aria-label="Recipient's username"
-          aria-describedby="basic-addon2" v-model="searchString" @keyup.enter="getFilm()">
+        <input type="text" class="form-control rounded borderHeader" placeholder="Cerca un titolo"
+          aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="searchString"
+          @keyup.enter="getFilm()">
         <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
         <!-- Pulsante per mandare le info -->
         <div class="input-group-append me-0">
-          <input class="btn btn-outline-secondary rounded text-light me-0" type="button" @click="getFilm()"
+          <input class="btn btn-outline-secondary rounded text-light me-0 borderHeader" type="button" @click="getFilm()"
             value="Cerca"></input>
         </div>
+      </div>
+
+      <div>
+        <a href="#"><i class="fa-solid fa-question"></i></a>
       </div>
     </div>
   </div>
 
   <div id="similMain" class="w-100 contenitoreApp">
-
-    <div class="ContainerCards d-flex gap-4 m-auto py-4">
+    <h3 id="titolo" class="ContainerCards m-auto pt-2">{{ title }}</h3>
+    <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto py-4">
       <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest">
 
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
@@ -283,6 +292,28 @@ export default {
 #similHeader {
   height: 4rem;
   display: flex;
+  background-color: #0A0908 !important;
+}
+
+#similHeader * {
+  background-color: #0A0908;
+}
+
+/* Senza spazio non funziona */
+#similHeader ::placeholder {
+  color: #E5E6E8;
+}
+
+#similHeader i {
+  color: #0A0908;
+  border-radius: 60px;
+  box-shadow: 0 0 2px #E5E6E8;
+  padding: 0.5em 0.6em;
+  background-color: #E5E6E8;
+}
+
+.borderHeader {
+  border-color: #E5E6E8;
 }
 
 #similMain {
@@ -293,16 +324,23 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   color: #D72638;
+  cursor: pointer
+}
+#titolo{
+  height: 3rem;
 }
 
 .contenitoreApp {
-  background-color: #D4D2D5;
+  background-color: #E5E6E8;
   overflow: auto;
   white-space: nowrap;
 }
 
 .ContainerCards {
   width: 90%;
+}
+.containerCardsHeight{
+  height: calc(100% - 3rem);
 }
 
 .content {
