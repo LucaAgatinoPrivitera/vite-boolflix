@@ -66,7 +66,11 @@ export default {
             console.error("!errorEEEE");
           });
       }
-      this.title = 'Ricerca per: ' + this.searchString;
+      // Questo if fa si che non si mostri mai un "Ricerca per:" e poi è tutto vuoto
+      if (this.searchString.length > 0) {
+        this.title = 'Ricerca per: ' + this.searchString;
+      }
+
     },
 
     getFilmPopular() {
