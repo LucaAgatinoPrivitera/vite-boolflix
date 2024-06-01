@@ -20,11 +20,18 @@ export default {
       store,
       prova: [],
       stars: [],
-      title: ''
+      title: '',
+      isModalOpen: false,
+      selectedCard: {},
     }
   },
 
   methods: {
+    openModal(card) {
+      this.selectedCard = card;
+      this.isModalOpen = true;
+    },
+
     getFilmBackup() {
       console.log("cerca: ", this.searchString); //il this serve perché è messo nel data, in fondo è vue
 
@@ -234,14 +241,17 @@ export default {
   <div id="similMain" class="w-100 contenitoreApp position-relative">
     <h3 id="titolo" class="ContainerCards m-auto mt-4">{{ title }}</h3>
     <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
-      <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest">
+      <!-- MODALE -->
+      <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
+        :overview="selectedCard.overview" :title="selectedCard.title" :original_name="selectedCard.original_name"
+        :poster_path="selectedCard.poster_path"></HeaderModale>
+        
+      <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest" :key="i">
 
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
         <div class="widthCards"
           v-if="(cardSingola.title != '') && (cardSingola.overview != '') || (cardSingola.original_name != '') && (cardSingola.overview != '')">
-          <div class="poster">
-
-            <HeaderModale class="position-absolute" :overview="cardSingola.overview"></HeaderModale>
+          <div class="poster" @click="openModal(cardSingola)">
 
             <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
 
@@ -456,7 +466,8 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: block !important;
 }
-.widthCards:hover .testoCard{
+
+.widthCards:hover .testoCard {
   display: block;
   opacity: 100;
 }
