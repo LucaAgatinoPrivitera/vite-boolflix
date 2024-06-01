@@ -23,6 +23,11 @@ export default {
       title: '',
       isModalOpen: false,
       selectedCard: {},
+      accountInfo: [],
+      avatar: '',
+      avatarAll: [],
+      username: false,
+      isHovered: false
     }
   },
 
@@ -32,6 +37,31 @@ export default {
       this.isModalOpen = true;
     },
 
+    account() {
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/account/21296641',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+        }
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+          this.accountInfo = response.data;
+          console.log(this.accountInfo.avatar.gravatar)
+          this.avatar = this.accountInfo.avatar.gravatar.hash
+          this.avatarAll = this.accountInfo
+
+          console.log("avatar", this.avatarAll)
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
     getFilmBackup() {
       console.log("cerca: ", this.searchString); //il this serve perché è messo nel data, in fondo è vue
 
@@ -227,8 +257,27 @@ export default {
 
     consoleprova() {
       console.log(this.searchString, "ciao")
-    }
+    },
+
+    showUsername() {
+      // document.getElementById('username').classList.add("showUsername")
+      if (this.isHovered == true) {
+        this.isHovered = false;
+        console.log("quuiiiiii", this.isHovered)
+        return this.isHovered;
+      }
+      else {
+        this.isHovered = true;
+        console.log("quuiiiiii", this.isHovered)
+        return this.isHovered;
+      }
+    },
+    hideUsername() {
+      // document.getElementById(username).classList.remove("hideUsername")
+      this.isHovered = false;
+    },
   },
+
 
   computed: {
     checkLang() {
@@ -241,6 +290,7 @@ export default {
 
   mounted() {
     // this.getFilmAndSeries()
+    this.account()
     this.getFilmPopular()
     this.getSeries()
     this.getRating()
@@ -266,8 +316,13 @@ export default {
         </div>
       </div>
 
-      <div>
-        <a href="#"><i class="fa-solid fa-question"></i></a>
+      <div id="session" class="d-flex gap-1 align-items-center">
+        <!-- <a href="#"><i class="fa-solid fa-question"></i></a> -->
+        <span id="username" class="usernameDefault" :class="{ showUsername: isHovered }">{{ avatarAll.username }}</span>
+        <img :src="'https://image.tmdb.org/t/p/w500/' + this.avatar" alt="">
+        <!-- da chiedere perché non mi becca niente -->
+        <img id="avatar" src="https://i.imgur.com/ruxIlU7.png" alt="" @click="showUsername()">
+        <!-- Da chiedere, cambia qualcosa se metto o no le parentesi? -->
       </div>
     </div>
   </div>
@@ -475,7 +530,8 @@ export default {
   color: #E5E6E8;
 }
 
-#similHeader input {
+#similHeader input,
+span {
   color: #E5E6E8;
 }
 
@@ -490,6 +546,26 @@ export default {
   box-shadow: 0 0 2px #E5E6E8;
   padding: 0.5em 0.6em;
   background-color: #E5E6E8;
+}
+
+.usernameDefault {
+  opacity: 0;
+  transition: ease-in-out 0.2s;
+  z-index: -1;
+}
+
+.showUsername {
+  opacity: 1 !important;
+  z-index: 1;
+}
+
+/* .hideUsername {
+  opacity: 0 !important;
+} */
+
+#avatar {
+  max-height: 3rem;
+  padding: .5rem 0;
 }
 
 .borderHeader {
@@ -591,13 +667,13 @@ export default {
 
 .widthCards:hover .testoCard {
   /* display: block; */
-  opacity: 100;
+  opacity: 1;
 }
 
 .poster:hover .titleInCard {
   display: block;
   text-shadow: 0px 0px 15px #0A0908 !important;
-  opacity: 100;
+  opacity: 1;
 }
 
 
