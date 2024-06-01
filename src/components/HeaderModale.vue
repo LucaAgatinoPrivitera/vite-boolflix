@@ -17,7 +17,8 @@ export default {
         poster_path: String,
         first_air_date: String,
         release_date: String,
-        language: String
+        language: String,
+        backdrop_path: String
 
     },
 
@@ -45,6 +46,7 @@ export default {
         <div class="modale-content text-light m-0 px-4 rounded-0" @keydown.esc="closeModal">
             <i class="fa-regular fa-circle-xmark close" @click="closeModal"></i>
             <div id="container" class="d-flex gap-4" @keydown.esc="closeModal">
+                <img id="backgroundImage" :src="'https://image.tmdb.org/t/p/w342' + backdrop_path" alt="">
                 <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
                     <h3 v-show="title != null">{{ title }}</h3>
@@ -78,6 +80,16 @@ export default {
 #container {
     padding: 0 0 0 10rem !important;
     width: calc(100% / 1.618);
+}
+#backgroundImage{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    opacity: 0.15;
 }
 
 .modale-content {

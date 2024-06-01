@@ -289,7 +289,7 @@ export default {
   },
 
   mounted() {
-    // this.getFilmAndSeries()
+    this.getFilmAndSeries()
     this.account()
     this.getFilmPopular()
     this.getSeries()
@@ -301,7 +301,7 @@ export default {
 <template>
   <div id="similHeader" class="w-100 bg-dark">
     <div class="d-flex justify-content-between align-items-center w-50 m-auto py-2">
-      <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries()">Boolflix</a>
+      <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries(), getSeries()">Boolflix</a>
 
       <!-- Searchbar -->
       <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
@@ -427,7 +427,7 @@ export default {
         :overview="selectedCard.overview" :title="selectedCard.title" :name="selectedCard.name"
         :original_name="selectedCard.original_name" :poster_path="selectedCard.poster_path"
         :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"
-        :originalTitle="selectedCard.original_title" :language="selectedCard.original_language"></HeaderModale>
+        :originalTitle="selectedCard.original_title" :language="selectedCard.original_language" :backdrop_path="selectedCard.backdrop_path"></HeaderModale>
 
       <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.seriesRequest" :key="i">
 
