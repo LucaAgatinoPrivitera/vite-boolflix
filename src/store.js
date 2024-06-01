@@ -12,8 +12,10 @@ import Header from './components/Header.vue';
 //   };;
 
 let filmRequest = []
+let seriesRequest = []
 
 export const store = reactive({
     filmRequest: filmRequest,
+    seriesRequest: seriesRequest
     // options: options
 });

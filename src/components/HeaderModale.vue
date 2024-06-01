@@ -11,11 +11,13 @@ export default {
     props: {
         overview: String,
         title: String,
+        name: String,
+        originalTitle: String,
         original_name: String,
         poster_path: String,
         first_air_date: String,
-        release_date: String
-
+        release_date: String,
+        language: String
 
     },
 
@@ -45,7 +47,10 @@ export default {
             <div id="container" class="d-flex gap-4" @keydown.esc="closeModal">
                 <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
-                    <h3>{{ title || original_name }}</h3>
+                    <h3 v-show="title != null">{{ title }}</h3>
+                    <h3 v-show="name != null">{{ name }}</h3>
+                    <h3 v-if="language != 'en' && originalTitle != null">({{ originalTitle }})</h3>
+                    <h3 v-if="language != 'en' && original_name != null">({{ original_name }})</h3>
                     <p>{{ overview }}</p>
                     <div class="pt-4 mt-4">
                         <p v-if="release_date">Data di uscita: {{ release_date.slice(0, 7) }}</p>

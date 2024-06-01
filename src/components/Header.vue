@@ -82,6 +82,38 @@ export default {
 
     },
 
+    getSeriesSearch() {
+      if (this.searchString != '') {
+        const options = {
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/search/tv',
+          params: { query: this.searchString, include_adult: 'false', language: 'en-US', page: '1' },
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTMxNDk2ZTkzMTljOGU5ZGIxN2FjZjRlZTk3MGY2NiIsInN1YiI6IjY2NTcyM2ZiZTU3MjdjNDE2OTFhMWEwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xKoIZnWtUqUqhxUEimcUFFitmER6Wp755YLUCMr7PzA'
+          }
+        };
+
+        axios
+          .request(options)
+          .then((response) => {
+            this.prova = response.data.results
+            console.log("ENTRAAA", this.prova)
+            let ciao = this.store.filmRequest;
+            this.store.seriesRequest = this.prova;
+            console.log("film e serie", this.store.filmRequest);
+            // Da chiedere, perché il console log funziona ma la pagina non vuole prendere i dati, ok era perché il v-for in basso non era settato bene
+            return this.store.filmRequest
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      }
+      if (this.searchString.length > 0) {
+        this.title = 'Ricerca per: ' + this.searchString;
+      }
+    },
+
     getFilmPopular() {
       const options = {
         method: 'GET',
@@ -120,7 +152,7 @@ export default {
         .request(options)
         .then((response) => {
           console.log(response.data);
-          this.store.filmRequest = response.data.results;
+          this.store.seriesRequest = response.data.results;
         })
         .catch(function (error) {
           console.error(error);
@@ -176,7 +208,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
-      this.title = 'Film e SerieTV popolari';
+      this.title = 'Film popolari';
 
 
     },
@@ -208,7 +240,9 @@ export default {
   },
 
   mounted() {
-    this.getFilmAndSeries()
+    // this.getFilmAndSeries()
+    this.getFilmPopular()
+    this.getSeries()
     this.getRating()
   }
 }
@@ -223,12 +257,12 @@ export default {
       <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
         <input type="text" class="form-control rounded borderHeader" placeholder="Cerca un titolo"
           aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="searchString"
-          @keyup.enter="getFilm()">
+          @keyup.enter="getFilm(), getSeriesSearch()">
         <!-- questo keyup l'ho messo in caso i ltasto cerca non funzioni a dovere -->
         <!-- Pulsante per mandare le info -->
         <div class="input-group-append me-0">
-          <input class="btn btn-outline-secondary rounded text-light me-0 borderHeader" type="button" @click="getFilm()"
-            value="Cerca"></input>
+          <input class="btn btn-outline-secondary rounded text-light me-0 borderHeader" type="button"
+            @click="getFilm(), getSeriesSearch()" value="Cerca"></input>
         </div>
       </div>
 
@@ -242,9 +276,7 @@ export default {
     <h3 id="titolo" class="ContainerCards m-auto mt-4">{{ title }}</h3>
     <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
       <!-- MODALE -->
-      <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
-        :overview="selectedCard.overview" :title="selectedCard.title" :original_name="selectedCard.original_name"
-        :poster_path="selectedCard.poster_path" :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"></HeaderModale>
+      <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"></HeaderModale>
 
       <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest" :key="i">
 
@@ -325,11 +357,101 @@ export default {
           </div>
 
           <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
-          <p class="text-left text-dark textBreak testoCard">{{ cardSingola.overview }}</p>
+          <p class="text-left text-dark textBreak testoCard notVisibleModale">{{ cardSingola.overview }}</p>
         </div>
 
+      </div>
     </div>
-  </div>
+
+
+    <!-- Spazio delle serietv -->
+    <h3 id="titolo" class="ContainerCards m-auto mt-4">SerieTV popolari</h3>
+    <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
+      <!-- MODALE -->
+      <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
+        :overview="selectedCard.overview" :title="selectedCard.title" :name="selectedCard.name"
+        :original_name="selectedCard.original_name" :poster_path="selectedCard.poster_path"
+        :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"
+        :originalTitle="selectedCard.original_title" :language="selectedCard.original_language"></HeaderModale>
+
+      <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.seriesRequest" :key="i">
+
+        <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
+        <div class="widthCards" v-if="(cardSingola.name != '') && (cardSingola.overview != '')">
+          <div class="poster" @click="openModal(cardSingola)">
+
+            <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
+
+            <h3 v-if="(cardSingola.name != null)" class="text-left mb-0 textBreak position-absolute titleInCard">
+              {{ cardSingola.name }}</h3>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between">
+
+            <h6 v-if="(cardSingola.name != null)" class="text-left mb-0 textBreak">{{ cardSingola.name }}</h6>
+            <!-- Grazie al null, controllo se è presente nell'array, se avessi messo solamente '' avrebbe stampato sempre gli h6 anche se non fossero esistiti dati dentro -->
+
+
+            <!-- Contenitore flag e lingua -->
+            <div class="d-flex gap-2">
+              <p v-if="(cardSingola.original_language != 'it') && (cardSingola.original_language != 'en')"
+                class="text-left text-dark mb-0">{{ cardSingola.original_language }}</p>
+              <!-- Quel v-if mi fa stampare in pagina il testo della lingua solo se è diverso da it e en -->
+
+              <!-- <img class="text-left text-dark mb-0" :src="cardSingola.original_language"> -->
+              <!-- Metodo 1, non ancora funzionante -->
+
+              <img v-if="cardSingola.original_language == 'it'" class="flag mb-0"
+                src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg" alt="">
+              <img v-if="cardSingola.original_language == 'en'" class="flag mb-0"
+                src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg"
+                alt="">
+              <img v-if="cardSingola.original_language == 'es'" class="flag mb-0"
+                src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" alt="">
+            </div>
+
+          </div>
+          <!-- Container di tutte le stelle -->
+          <div class="position-relative mb-4 containerIcons">
+
+            <!-- Container delle 5 stelle sempre presenti -->
+            <div class="allStars">
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <i class="fa-solid fa-star right opacity-25"></i>
+              <!-- {{ cardSingola.vote_average / 2 }} -->
+            </div>
+
+
+            <div class="">
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block" v-for="x in store.filmRequest[0]"></i> -->
+              <!-- da chiedere -->
+
+              <!-- Due modi uguali -->
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block">{{ (cardSingola.vote_average / 2).toFixed(2) }}</i> -->
+
+
+              <!-- <i class="fa-solid fa-star right opacity-50 d-block">{{ getRating(cardSingola.vote_average) }}</i> -->
+
+              <div class="">
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 1"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 2"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 3"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 4"></i>
+                <i class="fa-solid fa-star right opacity-50" v-if="getRating(cardSingola.vote_average) >= 5"></i>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Da chiedere come faccio a prendere solo gli elementi che hanno tutti gli elementi? fatto nel div contenitore di tutto questo, cerca "Div contenitore di ogni singola cardSingola" -->
+          <p class="text-left text-dark textBreak testoCard notVisibleModale">{{ cardSingola.overview }}</p>
+        </div>
+
+      </div>
+    </div>
 
 
   </div>
@@ -407,10 +529,10 @@ export default {
   width: 90%;
 }
 
-.containerCardsHeight {
-  height: calc(100% - (3rem + 1.5rem));
-  /* 1.5rem sarebbe lo spacer del margine */
-}
+/*.containerCardsHeight {
+   height: calc(100% - (3rem + 1.5rem));Rimosso perché adesso l'overview sta nella modale */
+/* 1.5rem sarebbe lo spacer del margine 
+}*/
 
 .content {
   display: contents;
@@ -468,7 +590,7 @@ export default {
 }
 
 .widthCards:hover .testoCard {
-  display: block;
+  /* display: block; */
   opacity: 100;
 }
 
@@ -507,6 +629,9 @@ export default {
   margin-left: auto;
 }
 
+.notVisibleModale {
+  display: none;
+}
 
 @media only screen and (max-width: 1920px) {
   .poster {
