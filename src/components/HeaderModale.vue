@@ -47,7 +47,10 @@ export default {
             <i class="fa-regular fa-circle-xmark close" @click="closeModal"></i>
             <div id="container" class="d-flex gap-4" @keydown.esc="closeModal">
                 <!-- Da chiedere, come posso renderla una Bg image in css? -->
-                <img id="backgroundImage" :src="'https://image.tmdb.org/t/p/w342' + backdrop_path" alt="">
+
+                <div class="backgroundContainer"><img id="backgroundImage"
+                        :src="'https://image.tmdb.org/t/p/w342' + backdrop_path" alt="">
+                </div>
                 <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
                     <h3 v-show="title != null">{{ title }}</h3>
@@ -82,16 +85,27 @@ export default {
     padding: 0 0 0 10rem !important;
     width: calc(100% / 1.618);
 }
-#backgroundImage{
+
+.backgroundContainer {
+    box-shadow: 0 0 500px rgb(0, 0, 0) inset !important;
     position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100% !important;
+    width: 100% !important;
+    height: 100vh !important;
     object-fit: cover;
     top: 0;
     left: 0;
-    opacity: 0.15;
 }
+
+#backgroundImage {
+    position: relative;
+    z-index: -1;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0.15;
+
+}
+
+
 
 .modale-content {
     padding: 20px;
@@ -125,6 +139,7 @@ img {
     width: calc(100% / 1.618);
     min-width: 50%;
     font-family: "Rubik", sans-serif;
+    z-index: 40;
 }
 
 
