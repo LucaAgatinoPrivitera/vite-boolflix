@@ -300,11 +300,12 @@ export default {
 
 <template>
   <div id="similHeader" class="w-100 bg-dark">
-    <div class="d-flex justify-content-between align-items-center w-50 m-auto py-2">
+    <div class="d-flex justify-content-between align-items-center m-auto py-2 similHeaderWidth">
+      <!-- Prima aveva un w-50 -->
       <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries(), getSeries()">Boolflix</a>
 
       <!-- Searchbar -->
-      <div class="input-group mb-0 w-50 align-items-center d-flex gap-1">
+      <div class="input-group mb-0 w-25 align-items-center d-flex gap-1">
         <input type="text" class="form-control rounded borderHeader" placeholder="Cerca un titolo"
           aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="searchString"
           @keyup.enter="getFilm(), getSeriesSearch()">
@@ -533,6 +534,10 @@ export default {
 #similHeader input,
 span {
   color: #E5E6E8;
+}
+
+.similHeaderWidth{
+  width: 90%;
 }
 
 .form-control:focus {
