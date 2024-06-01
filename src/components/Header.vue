@@ -661,8 +661,10 @@ span {
 
 .poster:hover {
   transform: scale(1.1);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  box-shadow: rgba(0, 0, 0, 1) 0px 3px 16px;
   display: block !important;
+  /* Da chiedere come faccio a non generare quella compenetrazione? */
 }
 
 .widthCards:hover .testoCard {
