@@ -46,6 +46,7 @@ export default {
         <div class="modale-content text-light m-0 px-4 rounded-0" @keydown.esc="closeModal">
             <i class="fa-regular fa-circle-xmark close" @click="closeModal"></i>
             <div id="container" class="d-flex gap-4" @keydown.esc="closeModal">
+                <!-- Da chiedere, come posso renderla una Bg image in css? -->
                 <img id="backgroundImage" :src="'https://image.tmdb.org/t/p/w342' + backdrop_path" alt="">
                 <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
