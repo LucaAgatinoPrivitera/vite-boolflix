@@ -299,7 +299,7 @@ export default {
 </script>
 
 <template>
-  <div id="similHeader" class="w-100 bg-dark">
+  <div id="similHeader" class="w-100">
     <div class="d-flex justify-content-between align-items-center m-auto py-2 similHeaderWidth">
       <!-- Prima aveva un w-50 -->
       <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries(), getSeries()">Boolflix</a>
@@ -529,11 +529,13 @@ export default {
 /* Senza spazio non funziona */
 #similHeader ::placeholder {
   color: #E5E6E8;
+  color: #f1f1f1;
 }
 
 #similHeader input,
 span {
   color: #E5E6E8;
+  color: #f1f1f1;
 }
 
 .similHeaderWidth{
@@ -542,6 +544,7 @@ span {
 
 .form-control:focus {
   border-color: #E5E6E8 !important;
+  border-color: #f1f1f1 !important;
   box-shadow: 0 0 0 0.1rem #E5E6E8 !important;
 }
 
@@ -550,7 +553,8 @@ span {
   border-radius: 60px;
   box-shadow: 0 0 2px #E5E6E8;
   padding: 0.5em 0.6em;
-  background-color: #E5E6E8;
+  border-color: #E5E6E8;
+  border-color: #f1f1f1;
 }
 
 .usernameDefault {
@@ -575,6 +579,7 @@ span {
 
 .borderHeader {
   border-color: #E5E6E8;
+  border-color: #f1f1f1;
 }
 
 #similMain {
@@ -602,6 +607,7 @@ span {
 
 .contenitoreApp {
   background-color: #E5E6E8;
+  background-color: #0A0908;
   overflow: auto;
   white-space: nowrap;
 }
@@ -619,6 +625,9 @@ span {
   display: contents;
 }
 
+p, h6, i{
+  color: #f1f1f1 !important;
+}
 .widthCards {
   width: 342px !important;
   height: auto;
@@ -650,7 +659,7 @@ span {
   top: 12.36px;
   left: 20px;
   opacity: 0;
-  color: #ffffff;
+  color: #f1f1f1;
   transition: 0.3s ease-in-out;
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
