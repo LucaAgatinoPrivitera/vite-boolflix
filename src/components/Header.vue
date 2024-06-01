@@ -244,9 +244,9 @@ export default {
       <!-- MODALE -->
       <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
         :overview="selectedCard.overview" :title="selectedCard.title" :original_name="selectedCard.original_name"
-        :poster_path="selectedCard.poster_path"></HeaderModale>
-        
-      <div class="cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest" :key="i">
+        :poster_path="selectedCard.poster_path" :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"></HeaderModale>
+
+      <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.filmRequest" :key="i">
 
         <!-- Div contenitore di ogni singola cardSingola, così da poter applicare il v-if -->
         <div class="widthCards"
@@ -328,8 +328,8 @@ export default {
           <p class="text-left text-dark textBreak testoCard">{{ cardSingola.overview }}</p>
         </div>
 
-      </div>
     </div>
+  </div>
 
 
   </div>

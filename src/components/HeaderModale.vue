@@ -12,7 +12,10 @@ export default {
         overview: String,
         title: String,
         original_name: String,
-        poster_path: String
+        poster_path: String,
+        first_air_date: String,
+        release_date: String
+
 
     },
 
@@ -36,15 +39,19 @@ export default {
 </script>
 
 <template>
-    <div class="modale modale-content close m-0 p-0 rounded-0 textBreak" v-if="isVisible">
-        <div class="modale-content text-light m-0 px-4 rounded-0">
+    <div class="modale modale-content close m-0 p-0 rounded-0 textBreak" v-if="isVisible" @keydown.esc="closeModal">
+        <div class="modale-content text-light m-0 px-4 rounded-0" @keydown.esc="closeModal">
             <i class="fa-regular fa-circle-xmark close" @click="closeModal"></i>
-            <div id="container" class="d-flex gap-4">
+            <div id="container" class="d-flex gap-4" @keydown.esc="closeModal">
                 <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
                     <h3>{{ title || original_name }}</h3>
                     <p>{{ overview }}</p>
-                    <p>{{ }}</p>
+                    <div class="pt-4 mt-4">
+                        <p v-if="release_date">Data di uscita: {{ release_date.slice(0, 7) }}</p>
+                        <p v-if="first_air_date">Data di uscita: {{ first_air_date.slice(0, 7) }}</p>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -56,10 +63,11 @@ export default {
 
 .modale {
     width: 100%;
-    height: 100vh;
-    top: 0px;
+    height: calc(100vh - 4rem);
+    top: 4rem !important;
     z-index: 100;
     background-color: #0a0908f6;
+    position: fixed !important;
 }
 
 #container {
