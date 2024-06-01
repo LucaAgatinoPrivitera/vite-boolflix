@@ -51,7 +51,7 @@ export default {
                 <div class="backgroundContainer"><img id="backgroundImage"
                         :src="'https://image.tmdb.org/t/p/w342' + backdrop_path" alt="">
                 </div>
-                <img :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
+                <img class="z-indexFixato" :src="'https://image.tmdb.org/t/p/w342' + poster_path" alt="Poster">
                 <div class="info">
                     <h3 v-show="title != null">{{ title }}</h3>
                     <h3 v-show="name != null">{{ name }}</h3>
@@ -112,6 +112,13 @@ export default {
     border-radius: 5px;
     position: relative;
     height: 100%;
+    z-index: 50;
+}
+i{
+    z-index: 200;
+}
+.z-indexFixato{
+    z-index: 100;
 }
 
 .close {
