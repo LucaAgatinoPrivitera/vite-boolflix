@@ -18,7 +18,8 @@ export default {
         first_air_date: String,
         release_date: String,
         language: String,
-        backdrop_path: String
+        backdrop_path: String,
+        original_language: String
 
     },
 
@@ -32,11 +33,21 @@ export default {
             isVisible: true
         }
     },
+
     methods: {
         closeModal() {
             this.isVisible = false;
             this.$emit('close');
+        },
+        callParentMethod() {
+            this.$emit('call-parent-method');
         }
+    },
+    created() {
+        this.$emit('call-parent-method');
+    },
+    mounted() {
+        this.$emit('call-parent-method');
     }
 }
 </script>
@@ -58,11 +69,42 @@ export default {
                     <h3 v-if="language != 'en' && originalTitle != null">({{ originalTitle }})</h3>
                     <h3 v-if="language != 'en' && original_name != null">({{ original_name }})</h3>
                     <p>{{ overview }}</p>
-                    <div class="pt-4 mt-4">
-                        <p v-if="release_date">Data di uscita: {{ release_date.slice(0, 7) }}</p>
-                        <p v-if="first_air_date">Data di uscita: {{ first_air_date.slice(0, 7) }}</p>
+                    <div class="d-flex justify-content-between pt-4 mt-4">
+                        <div class="">
+                            <p v-if="release_date">Data di uscita: {{ release_date.slice(0, 7) }}</p>
+                            <p v-if="first_air_date">Data di uscita: {{ first_air_date.slice(0, 7) }}</p>
+                        </div>
+                        <p>({{ original_language }})</p>
                     </div>
 
+
+                </div>
+            </div>
+
+            <!-- Da chiedere, perché non funziona? Cannot read properties of undefined (reading 'filmAndSeries')-->
+            <div class="suggested mt-5">
+                <div>
+                    <h3>Contenuti consigliati</h3>
+                    <!-- <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content"
+                        v-for="cardSingola, i in store.filmAndSeries" :key="i">
+
+                        <div class="widthCards" v-if="(cardSingola.name != '') && (cardSingola.overview != '')">
+                            <div class="poster" @click="openModal(cardSingola)">
+
+                                <img class="poster" :src="'https://image.tmdb.org/t/p/w342' + cardSingola.poster_path">
+
+                                <h3 v-if="(cardSingola.name != null)"
+                                    class="text-left mb-0 textBreak position-absolute titleInCard">
+                                    {{ cardSingola.name }}</h3>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between">
+
+                                <h6 v-if="(cardSingola.name != null)" class="text-left mb-0 textBreak">
+                                    {{ cardSingola.name }}</h6>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -113,11 +155,14 @@ export default {
     position: relative;
     height: 100%;
     z-index: 50;
+    padding-top: 4.5rem;
 }
-i{
+
+i {
     z-index: 200;
 }
-.z-indexFixato{
+
+.z-indexFixato {
     z-index: 100;
 }
 
@@ -149,7 +194,9 @@ img {
     z-index: 40;
 }
 
-
+.suggested {
+    padding: 0 0 0 10rem !important;
+}
 
 .textBreak {
     white-space: normal;

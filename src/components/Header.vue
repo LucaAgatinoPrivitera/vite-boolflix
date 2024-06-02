@@ -424,11 +424,15 @@ export default {
     <h3 id="titolo" class="ContainerCards m-auto mt-4">SerieTV popolari</h3>
     <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
       <!-- MODALE -->
-      <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
-        :overview="selectedCard.overview" :title="selectedCard.title" :name="selectedCard.name"
-        :original_name="selectedCard.original_name" :poster_path="selectedCard.poster_path"
-        :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"
-        :originalTitle="selectedCard.original_title" :language="selectedCard.original_language" :backdrop_path="selectedCard.backdrop_path"></HeaderModale>
+      <Transition>
+        <HeaderModale v-if="isModalOpen" @close="isModalOpen = false" class="position-absolute"
+          :overview="selectedCard.overview" :title="selectedCard.title" :name="selectedCard.name"
+          :original_name="selectedCard.original_name" :poster_path="selectedCard.poster_path"
+          :first_air_date="selectedCard.first_air_date" :release_date="selectedCard.release_date"
+          :originalTitle="selectedCard.original_title" :language="selectedCard.original_language"
+          :backdrop_path="selectedCard.backdrop_path" :original_language="selectedCard.original_language.toUpperCase()"
+          @call-parent-method="getFilmAndSeries"></HeaderModale>
+      </Transition>
 
       <div class=" cards mb-0 pb-0 w-100 m-auto mt-0 content" v-for="cardSingola, i in store.seriesRequest" :key="i">
 
@@ -516,6 +520,16 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 #similHeader {
   height: 4rem;
   display: flex;
@@ -538,7 +552,7 @@ span {
   color: #f1f1f1;
 }
 
-.similHeaderWidth{
+.similHeaderWidth {
   width: 90%;
 }
 
@@ -603,6 +617,7 @@ span {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   color: #0A0908;
+  color: #f1f1f1;
 }
 
 .contenitoreApp {
@@ -625,9 +640,12 @@ span {
   display: contents;
 }
 
-p, h6, i{
+p,
+h6,
+i {
   color: #f1f1f1 !important;
 }
+
 .widthCards {
   width: 342px !important;
   height: auto;
