@@ -21,6 +21,7 @@ export default {
       prova: [],
       stars: [],
       title: '',
+      titleTV: '',
       isModalOpen: false,
       selectedCard: {},
       accountInfo: [],
@@ -140,8 +141,10 @@ export default {
           });
       }
       if (this.searchString.length > 0) {
-        this.title = 'Ricerca per: ' + this.searchString;
+        this.title = 'Film ricercati per: ' + this.searchString;
+        this.titleTV = 'SerieTV ricercate per: ' + this.searchString;
       }
+      this.titleTV = 'SerieTV ricercate per: ' + this.searchString;
     },
 
     getFilmPopular() {
@@ -187,6 +190,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
+      this.titleTV = "SerieTV Popolari"
     },
     getFilmAndSeries() {
       this.getFilmPopular()
@@ -421,7 +425,7 @@ export default {
 
 
     <!-- Spazio delle serietv -->
-    <h3 id="titolo" class="ContainerCards m-auto mt-4">SerieTV popolari</h3>
+    <h3 id="titolo" class="ContainerCards m-auto mt-4">{{ titleTV }}</h3>
     <div class="ContainerCards containerCardsHeight d-flex gap-4 m-auto pb-4">
       <!-- MODALE -->
       <Transition>

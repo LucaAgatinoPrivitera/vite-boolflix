@@ -13,3 +13,9 @@ Voto
 
 Da chiedere, come gestire la modale. Perché col transform scale mi ignora i z-index sulle stelle?
 Come faccio a fare in modo che all'hover dell'img mi venga mostrato il testo?
+Da chiedere, cambia qualcosa se metto o no le parentesi?
+Da chiedere come faccio a non generare quella compenetrazione?
+
+Da chiedere, come posso renderla una Bg image in css?
+Da chiedere, perché non funziona? Cannot read properties of undefined (reading 'filmAndSeries')
+Sul primo titolo appare una card
