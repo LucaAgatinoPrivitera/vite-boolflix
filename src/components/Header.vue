@@ -306,7 +306,8 @@ export default {
   <div id="similHeader" class="w-100">
     <div class="d-flex justify-content-between align-items-center m-auto py-2 similHeaderWidth">
       <!-- Prima aveva un w-50 -->
-      <a id="siteName" class="navbar navbar-brand m-0" @click="getFilmAndSeries(), getSeries()">Boolflix</a>
+      <a id="siteName" class="navbar navbar-brand m-0"
+        @click="getFilmAndSeries(), getSeries(), isModalOpen = false">Boolflix</a>
 
       <!-- Searchbar -->
       <div class="input-group mb-0 w-25 align-items-center d-flex gap-1">
