@@ -677,6 +677,9 @@ i {
   transition: 0.3s ease-in-out;
   cursor: pointer;
 }
+div.poster{
+  position: relative;
+}
 
 .titleInCard {
   top: 12.36px;
