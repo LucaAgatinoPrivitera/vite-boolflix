@@ -4,7 +4,7 @@ Il progetto prevedeva di realizzare una replica della web-app di Netflix.
 ## Home ##
 Nella home sono presenti le liste dei Film e SerieTv più popolari, esteticamente visibili sotto forma di card con: Immagine, titolo, lingua, e voto espresso con le stelle.
 
-### SearchBar ###
+## Search ##
 Nella SearchBar possiamo ricercare Film e SerieTv che verranno caricate all'interno della stessa pagina essendo una web-app
 
 ## Modale ##
