@@ -13,3 +13,6 @@ Cliccando sull'opera desiderata, si aprirà una modale dove saranno presenti: Ti
 # Progettazione #
 Vue è stato utilizzato per realizzare tutto il sito, mentre con Bootstrap mi sono occupato della parte inerente allo stile.
 Sono stati realizzati i vari componenti che poi sono presenti in ogni pagina (come per esempio l'header).
+
+## API ##
+Per gestire l'API è stato utilizzato AJAX con endpoint pubblico (TMDB).
