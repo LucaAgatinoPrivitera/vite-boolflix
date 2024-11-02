@@ -168,7 +168,7 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
-      this.title = 'Film Popolari';
+      this.title = 'Film popolari';
     },
     getSeries() {
       const options = {
