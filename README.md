@@ -11,8 +11,7 @@ Nella SearchBar possiamo ricercare Film e SerieTv che verranno caricate all'inte
 Cliccando sull'opera desiderata, si aprirà una modale dove saranno presenti: Titolo, Titolo in lingua originale, trama, data di uscita e lingua originale. E nel background invece si trova un'immagine del film.
 
 # Progettazione #
-Vue è stato utilizzato per realizzare tutta la web-app, mentre con Bootstrap mi sono occupato della parte inerente allo stile.
-Sono stati realizzati i vari componenti che poi sono presenti in ogni pagina (come per esempio l'header).
+Il progetto è stato realizzato utilizzando HTML, CSS, Vue e Bootstrap.
 
 ## API ##
 Per gestire l'API è stato utilizzato AJAX con endpoint pubblico (TMDB).
